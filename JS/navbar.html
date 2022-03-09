@@ -32,6 +32,22 @@
         </div>
       </div> 
 
+      <script>
+        //모달창의 검은 배경을 누르면 모달창이 사라짐
+        var blackbg = document.querySelector('.black-bg');
+        
+        blackbg.addEventListener('click', function(e){
+  
+                  if(e.target == blackbg){
+                    blackbg.classList.remove('show-modal');
+                  }
+                  // e.target; //유저가 실제로 누른거
+                  // e.currentTarget; //이벤트리스너 달린 곳
+                  // e.preventDefault; //기본동작 막아줌
+                  // e.stopPropagation; //이벤트 버블링 막아줌   
+              });
+      </script>
+
     <!-- navbar -->
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
@@ -69,6 +85,8 @@
           <h4>Shirts on Sale</h4>
           <button class="btn btn-primary" id="login">로그인</button>
       </div>
+
+     
 
       <div style="height: 1000px"></div>
 
@@ -125,19 +143,22 @@
 
 
       <script>
+          var login = document.querySelector('#login');
+          var close = document.querySelector('#close');
+
           //navbar
           document.querySelectorAll('.navbar-toggler')[0].addEventListener('click', function(){
               document.querySelectorAll('.list-group')[0].classList.toggle('show');
           });
-
-          $('#login').on('click', function(){
-                $('.black-bg').addClass('show-modal');
+          
+          login.addEventListener('click', function(){
+              document.querySelector('.black-bg').classList.add('show-modal');
+            });
+  
+            close.addEventListener('click', function(){
+              document.querySelector('.black-bg').classList.remove('show-modal');
             });
 
-          $('#close').on('click', function(){
-              $('.black-bg').removeClass('show-modal');
-          });
-          
           //폼 박스
           document.querySelectorAll('#submit')[0].addEventListener('click', function(e){
             if(document.querySelectorAll('.form-control')[0].value === '') {

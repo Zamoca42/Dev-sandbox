@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="main.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="card-background">
+        <div class="card-box">
+            <img src="img/card1.png">
+        </div>
+        <div class="card-box">
+            <img src="img/card2.png">
+        </div>
+        <div class="card-box">
+            <img src="img/card3.png">
+        </div>
+    </div>
+
+    <script>
+        $(window).scroll(function(){
+            var 높이 = $(window).scrollTop();
+            console.log(높이);
+
+            
+            // 480 880까지 스크롤바를 내리면,
+            // 첫째카드의 opacity 1~0으로 서서히 변경
+
+            var y = (-1/230) * 높이 + (382/100);
+            
+            $('.card-box').eq(0).css('opacity', y);
+
+            var z = (-1/5000) * 높이 + (565/500)
+
+            $('.card-box').eq(0).css('transform', `scale( ${z} )`);
+        });
+    </script>
+</body>
+</html>

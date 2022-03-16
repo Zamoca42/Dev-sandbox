@@ -4,6 +4,7 @@ const db_config = require('./db_config.json');
 const bodyParser= require('body-parser')
 app.use(bodyParser.urlencoded({extended: true}));
 const MongoClient = require('mongodb').MongoClient;
+app.set('view engin', 'ejs');
 
 var db;
 MongoClient.connect(`${db_config.database}`, function(error, client){
@@ -12,6 +13,7 @@ MongoClient.connect(`${db_config.database}`, function(error, client){
     //데이터베이스에 연결
     db = client.db('todoapp');
 
+    // MongoDB 테스트
     // db.collection('post').insertOne( {_id: 100, 이름 : 'John', 나이 : 20}, function(error, result){
     //     console.log('저장완료');
     // });
@@ -43,7 +45,17 @@ app.get('/write', function(request, response){
 //어떤 사람이 /add 경로로 POST 요청을 하면...
 app.post('/add', function(request, response){
     response.send('전송완료');
-    db.collection('post').insertOne( {날짜 : `${request.body.date}`, 제목 : `${request.body.title}`}, function(error, result){
+    db.collection('post').insertOne( {날짜 : request.body.date, 제목 : request.body.title}, function(error, result){
         console.log('저장완료');
     });
 });
+
+// /list 로 get요청으로 실제 DB에 저장된 테이터들로 접속하면 HTML을 보여줌
+app.get('/list', function(request,response){
+    
+    db.collection('post').find().toArray(function(error, result){
+        console.log(result);
+        response.render('list.ejs', { posts : result});
+    });
+});
+

@@ -73,3 +73,21 @@ app.get('/list', function(request,response){
     });
 });
 
+//db에 게시물번호를 가진 글을 삭제해주세요
+app.delete('/delete', function(request,response){
+    console.log(request.body)
+    request.body._id = parseInt(request.body._id);
+    db.collection('post').deleteOne(request.body, function(error, result){
+        console.log('삭제완료');
+        response.status(200).send({ message : 'Success'});
+    });
+});
+
+//detail로 상세페이지를 연결하고 뒤에 /:id parameter로 원하는 페이지 연결
+app.get('/detail/:id', function(request,response){
+    var id = parseInt(request.params.id)
+    db.collection('post').findOne({_id : id}, function(error, result){
+        console.log(result)
+        response.render('detail.ejs', { data  : result});
+    })
+})

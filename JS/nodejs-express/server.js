@@ -4,7 +4,12 @@ const db_config = require('./db_config.json');
 const bodyParser= require('body-parser')
 app.use(bodyParser.urlencoded({extended: true}));
 const MongoClient = require('mongodb').MongoClient;
+const methodOverride = require('method-override');
+const { request } = require('express');
+app.use(methodOverride('_method'));
 app.set('view engin', 'ejs');
+
+app.use('/public', express.static('public'));
 
 var db;
 MongoClient.connect(`${db_config.database}`, function(error, client){
@@ -35,16 +40,16 @@ app.get('/beauty', function(request, response){
 });
 
 app.get('/', function(request, response){
-    response.sendFile(__dirname + '/index.html');
+    response.render('index.ejs');
 });
 
 app.get('/write', function(request, response){
-    response.sendFile(__dirname + '/write.html');
+    response.render('write.ejs');
 });
 
 //어떤 사람이 /add 경로로 POST 요청을 하면...
 app.post('/add', function(request, response){
-    response.send('전송완료');
+    response.redirect('/list');
     //쿼리문과 비슷함 - counter에서 게시물 갯수라는 항목을 찾는다
     db.collection('counter').findOne({name : '게시물갯수'}, function(error,result){
         //총 게시물 갯수를 변수에 저장
@@ -57,7 +62,7 @@ app.post('/add', function(request, response){
             db.collection('counter').updateOne( {name:'게시물갯수'},{ $inc : {totalPost:1} }, function(error, result){
                 //$set, $inc은 update전용 operator
                 if(error){return console.log('error')}
-                console.log('수정완료')
+                console.log('수정완료');
             });
         });
         
@@ -68,7 +73,6 @@ app.post('/add', function(request, response){
 app.get('/list', function(request,response){
     
     db.collection('post').find().toArray(function(error, result){
-        console.log(result);
         response.render('list.ejs', { posts : result});
     });
 });
@@ -83,11 +87,27 @@ app.delete('/delete', function(request,response){
     });
 });
 
-//detail로 상세페이지를 연결하고 뒤에 /:id parameter로 원하는 페이지 연결
+//detail로 상세페이지를 연결하고 뒤에 /:id로 id에 해당하는 db로 라우팅
 app.get('/detail/:id', function(request,response){
-    var id = parseInt(request.params.id)
-    db.collection('post').findOne({_id : id}, function(error, result){
-        console.log(result)
+    var postid = parseInt(request.params.id)
+    db.collection('post').findOne({_id : postid}, function(error, result){
         response.render('detail.ejs', { data  : result});
     })
 })
+
+//edit으로 수정페이지를 연결하고 뒤에 /:id로 id에 해당하는 db로 라우팅
+app.get('/edit/:id', function(request, response){
+    var postid = parseInt(request.params.id)
+    db.collection('post').findOne({_id : postid}, function(error, result){
+        console.log(result);
+        response.render('edit.ejs', { post  : result});
+    });
+});
+
+//put요청으로 DB수정 process
+app.put('/edit', function(request, response){
+    db.collection('post').updateOne({_id : parseInt(request.body.id)},{ $set : { 제목 : request.body.title, 날짜 : request.body.date } }, function(error, result) {
+        console.log('수정완료');
+        response.redirect('/list');
+    });
+});

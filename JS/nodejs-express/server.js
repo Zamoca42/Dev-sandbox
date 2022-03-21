@@ -4,7 +4,7 @@ const db_config = require('./db_config.json');
 const bodyParser= require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 const methodOverride = require('method-override');
-const { request } = require('express');
+const { request, response } = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
@@ -174,4 +174,26 @@ passport.deserializeUser(function (아이디, done) {
   })
   
 }); 
-  
+
+//서버에서 Query String 처리하는 방법(indexing 이진 탐색)
+app.get('/search', (request, response) => {
+    var searchCondition = [
+        {
+            $search: {
+                index: 'titleSearch',
+                text: {
+                  query: request.query.value,
+                  path: '제목'  // 제목날짜 둘다 찾고 싶으면 ['제목', '날짜']
+                }
+              }
+            },
+            { $sort : { _id : 1} }
+        ]
+    db.collection('post').aggregate(searchCondition).toArray((error, result) => {
+        if(error) {
+            return response.redirect('/');
+        }
+        console.log(result);
+        response.render('result.ejs', {posts : result});
+    });
+})

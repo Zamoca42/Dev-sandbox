@@ -30,11 +30,6 @@
       })
 
     </script>
-    <!-- <% for (var i = 0; i < posts.length; i++) { %>
-      <h4>할일 제목: <%= posts[i].제목 %></h4>
-      <P>할일 마감날짜 : <%= posts[i].날짜 %></P>
-      <button>삭제</button>
-    <% } %> -->
     <div class="container">
       <ul class="list-group">
         <% for (var i = 0; i < posts.length; i++) { %>
@@ -51,21 +46,20 @@
 
     <script>
 
-      $('.delete').click(function(e){
-        var listnumber = e.target.dataset.id;
-        var nowclick = $(this);
-        //삭제 버튼을 누르면 리스트에 있는 할일목록을 삭제
-        $.ajax({
-          method : 'DELETE',
-          url : '/delete',
-          data : {_id : listnumber}
-        }).done(function(result){
-          nowclick.parent('li').fadeOut();
-        }).fail(function(result){
-
-        });
-      })
-
+        $('.delete').click(function(e){
+          var listnumber = e.target.dataset.id;
+          var nowclick = $(this);
+          //삭제 버튼을 누르면 리스트에 있는 할일목록을 삭제
+          $.ajax({
+            method : 'DELETE',
+            url : '/delete',
+            data : {_id : listnumber}
+          }).done(function(result){
+            nowclick.parent('li').fadeOut();
+          }).fail(function(result){
+  
+          });
+        })
     </script>
     
 

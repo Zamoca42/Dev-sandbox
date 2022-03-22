@@ -197,3 +197,40 @@ app.get('/search', (request, response) => {
         response.render('result.ejs', {posts : result});
     });
 })
+
+//누군가 '/'경로로 접속했을 때 shop.js로 라우팅
+app.use('/shop', require('./routes/shop.js'));
+
+app.use('/board/sub', require('./routes/board.js'));
+
+let multer = require('multer');
+var storage = multer.diskStorage({
+    destination : function(req, file, cb){
+        cb(null, './public/image')
+    },
+    filename : function(req, file, cb){
+        cb(null, file.originalname ) //파일명 자유롭게 선택가능 file.originalname + new Date()
+    },
+    filefilter : function(req, file, cb){ //원하는 파일 확장자만 받는법
+        var ext = path.extname(file.originalname);
+        if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+            return callback(new Error('PNG, JPG만 업로드하세요'))
+        }
+        callback(null, true) 
+    }
+});
+
+var upload = multer({storage : storage});
+
+app.get('/upload', function(request, response){
+    response.render('upload.ejs')
+})
+
+//upload.js에서 하나의 파일만 업로드를 받아서 image폴더에 저장
+app.post('/upload', upload.single('profile'), function(request, response){
+    response.send('업로드완료')
+});
+
+app.get('/image/:imageName', function(요청, 응답){
+    응답.sendFile( __dirname + '/public/image/' + 요청.params.imageName )
+  })

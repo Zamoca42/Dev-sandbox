@@ -44,12 +44,19 @@
           <P>할일 마감날짜 : <%= posts[i].날짜 %></P>
           <button class="delete btn btn-danger" data-id="<%= posts[i]._id %>">삭제</button>  
           <button class="edit btn btn-primary" onclick="location.href='/edit/<%= posts[i]._id %>'">수정</button>
+          <button class="btn btn-secondary chat" data-id="<%= posts[i]._id %>">채팅하기</button>
         </li>
         <% } %>
       </ul>
     </div>
 
     <script>
+       $('.chat').click(function(e){
+      var _id = e.target.dataset.id;
+      $.post('/chatroom', {당한사람id : _id}).then(()=>{
+        console.log('채팅방 게시물 생성완료')
+        })
+      });
 
       $('.delete').click(function(e){
         var listnumber = e.target.dataset.id;

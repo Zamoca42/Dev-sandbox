@@ -8,6 +8,7 @@ const { request, response } = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+const {ObjectId} = require('mongodb');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 app.set('view engin', 'ejs');
@@ -234,3 +235,23 @@ app.post('/upload', upload.single('profile'), function(request, response){
 app.get('/image/:imageName', function(요청, 응답){
     응답.sendFile( __dirname + '/public/image/' + 요청.params.imageName )
   })
+
+  app.post('/chatroom',logincorrect, function(request, response){
+    var chat = {
+        title : '채팅방',
+        member : [ObjectId(request.body.당한사람id), request.user._id],
+        date : new Date()
+    }
+    db.collection('chatroom').insertOne(chat).then(function(result){
+        response.send('저장완료');
+        });
+    });
+
+app.get('/chat', logincorrect, function(request, response){ 
+
+    db.collection('chatroom').find({ member : request.user._id }).toArray().then((result)=>{
+      console.log(result);
+      response.render('chat.ejs', {data : result})
+    });
+  
+  }); 

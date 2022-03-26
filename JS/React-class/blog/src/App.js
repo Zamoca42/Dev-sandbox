@@ -53,6 +53,14 @@ function App(){
         })
       }
 
+      <div className="publish">
+        <input onChange={ (e)=>{ setInputValue(e.target.value)} }/>
+        <button onClick={ ()=>{
+          let arrayCopy = [...title];
+          arrayCopy.unshift(inputValue);
+          titleChange( arrayCopy );
+        } }>저장</button>
+      </div>
       
       {/* <input onChange={ (e)=>{ setInputValue(e.target.value) } } /> */}
 

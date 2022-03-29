@@ -5,21 +5,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import shoesData from './data.js';
 import Detail from './Detail.js';
+import axios from 'axios';
 
 import { Link, Route, Switch, Routes } from 'react-router-dom';
 
 function App() {
 
   let [shoes, setShoes] = useState(shoesData);
+  let [재고, 재고변경] = useState([10,11,12]);
 
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand><Link to="/" className='link-light link'>ShoeShop</Link></Navbar.Brand>
+          <Navbar.Brand as={Link} to="/" className='link-light link'>ShoeShop</Navbar.Brand>
             <Nav className="me-auto">
-            <Nav.Link><Link to="/" className='link-light link'>Home</Link></Nav.Link>
-            <Nav.Link><Link to="/detail" className='link-light link'>Detail</Link></Nav.Link>
+            <Nav.Link as={Link} to="/" className='link-light link'>Home</Nav.Link>
+            <Nav.Link as={Link} to="/detail" className='link-light link'>Detail</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
         </Container>
@@ -44,14 +46,20 @@ function App() {
             })
           }
         </div>
+        <button className='btn btn-primary' onClick={()=>{
+
+          axios.get('https://codingapple1.github.io/shop/data2.json')
+          .then((result)=>{ setShoes([...shoes, ...result.data])
+          })//성공했을 때 실행
+          .catch(()=>{
+
+          });//실패했을 때 실행
+
+        }}>더보기</button>
   
         </Route>
         <Route path="/detail/:id">
-          <Detail shoes={shoes}/>
-        </Route>
-
-        <Route path="/:id">
-          <div>아무거나적었을 때 이거 보여주셈</div>
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
         </Route>
 
       </Switch>

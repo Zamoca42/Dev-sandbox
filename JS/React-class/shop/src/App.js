@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import logo from './logo.svg';
 import { Navbar,Nav,Container,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,8 +6,9 @@ import './App.css';
 import shoesData from './data.js';
 import Detail from './Detail.js';
 import axios from 'axios';
-
 import { Link, Route, Switch, Routes } from 'react-router-dom';
+
+export let 재고context = React.createContext(); //같은 변수값을 공유할 범위생성 
 
 function App() {
 
@@ -39,14 +40,20 @@ function App() {
             <Button variant="primary">Primary</Button>{' '}
           </div>
           <div className='container'></div>
-        <div className='row'>
-          {
-            shoes.map((head,loop)=>{
-              return <ShoeList shoes={shoes[loop]} loop={loop} key={loop}></ShoeList>
-            })
-          }
-        </div>
-        <button className='btn btn-primary' onClick={()=>{
+
+            <재고context.Provider value={재고}>
+
+            <div className='row'>
+              {
+                shoes.map((head,loop)=>{
+                  return <ShoeList shoes={shoes[loop]} loop={loop} key={loop}></ShoeList>
+                })
+              }
+            </div>
+
+          </재고context.Provider>
+          
+          <button className='btn btn-primary' onClick={()=>{
 
           axios.get('https://codingapple1.github.io/shop/data2.json')
           .then((result)=>{ setShoes([...shoes, ...result.data])
@@ -71,13 +78,22 @@ function App() {
 
 
 function ShoeList(props){
+
+  let 재고 = useContext(재고context);
+
   return (
       <div className='col-md-4'>
           <img src={'https://codingapple1.github.io/shop/shoes'+(props.loop + 1)+'.jpg'} width="100%"/>
           <h4>{props.shoes.title}</h4>
           <p>{props.shoes.content} & {props.shoes.price}</p>
+          <Test></Test>
       </div>
   )
+}
+
+function Test(){
+  let 재고 = useContext(재고context);
+  return <p>{재고[0]}</p>
 }
 
 export default App;

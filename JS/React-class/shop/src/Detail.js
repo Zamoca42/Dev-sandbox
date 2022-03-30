@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import {재고context} from './App.js';
+import './Detail.css'
+import { Navbar,Nav,Container,Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { SwitchTransition, CSSTransition} from 'react-transition-group';
 
 //컴포넌트에 직접 스타일 넣어서 스타일링하기 - css를 미리 입혀놓은 컴포넌트
 let Box = styled.div`
@@ -18,6 +23,9 @@ function Detail(props){
 
     let [alert,setAlert] = useState(true);
     let [inputValue,setInputValue] = useState('');
+    let [누른탭, 누른탭변경] = useState(0);
+    let 재고 = useContext(재고context);
+    let [스위치, 스위치변경] = useState(false);
     
     useEffect(()=>{
       let 타이머 = setTimeout(()=>{setAlert(false)}, 2000)
@@ -61,8 +69,37 @@ function Detail(props){
             } }>뒤로가기</button> 
           </div>
         </div>
+
+        <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
+          <Nav.Item>
+            <Nav.Link eventKey="link-0" onClick={()=>{ 스위치변경(false); 누른탭변경(0)}}>Active</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link-1" onClick={()=>{ 스위치변경(false); 누른탭변경(1)}}>Option 2</Nav.Link>
+          </Nav.Item>
+        </Nav>
+
+        <CSSTransition in={스위치} classNames="wow" timeout={1000}>
+          <TabContent 누른탭={누른탭} 스위치변경={스위치변경}/>
+        </CSSTransition>    
       </div> 
     )
+  }
+
+  function TabContent(props){
+
+    useEffect(()=>{
+      props.스위치변경(true);
+    });
+
+    if (props.누른탭 === 0) {
+      return <div>0번째 내용입니다</div>
+    } else if (props.누른탭 === 1) {
+      return <div>1번째 내용입니다</div>
+    } else if (props.누른탭 === 2) {
+      return <div>2번째  내용입니다</div>
+    }
+    
   }
 
   function Info(props){
@@ -71,5 +108,6 @@ function Detail(props){
     )
   }
 
+  
 export default Detail;
 

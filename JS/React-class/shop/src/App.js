@@ -7,6 +7,7 @@ import shoesData from './data.js';
 import Detail from './Detail.js';
 import axios from 'axios';
 import { Link, Route, Switch, Routes } from 'react-router-dom';
+import Cart from './Cart.js';
 
 export let 재고context = React.createContext(); //같은 변수값을 공유할 범위생성 
 
@@ -67,6 +68,10 @@ function App() {
         </Route>
         <Route path="/detail/:id">
           <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
+        </Route>
+
+        <Route path="/cart">
+          <Cart></Cart>
         </Route>
 
       </Switch>

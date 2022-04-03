@@ -53,3 +53,10 @@
     transform: rotate(360deg);
   }
 }
+
+.my-alert2 {
+  color:white;
+  background-color: #2BBBAD;
+  margin: 10px;
+  padding: 10px;
+}

@@ -6,6 +6,7 @@ import './Detail.css'
 import { Navbar,Nav,Container,Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { SwitchTransition, CSSTransition} from 'react-transition-group';
+import { connect } from 'react-redux';
 
 //컴포넌트에 직접 스타일 넣어서 스타일링하기 - css를 미리 입혀놓은 컴포넌트
 let Box = styled.div`
@@ -63,7 +64,12 @@ function Detail(props){
 
             <Info 재고={props.재고}></Info>
 
-            <button className="btn btn-danger" onClick={()=>{ props.재고변경([9,11,12])}}>주문하기</button> 
+            <button className="btn btn-danger" onClick={()=>{ 
+              props.재고변경([9,11,12]);
+              props.dispatch({type : '항목추가', payload : {id : 2, name : '새상품', quan : 1} });
+              history.push('/cart');
+
+            }}>주문하기</button> 
             <button className="btn btn-primary" onClick={ ()=>{
                 history.goBack(); //뒤로가기
             } }>뒤로가기</button> 
@@ -109,5 +115,13 @@ function Detail(props){
   }
 
   
-export default Detail;
+  function 함수명(state){ //state를 props화 해주세요
+    return {
+        state : state.reducer,
+        alert열렸니 : state.reducer2
+    }
+}
+
+export default connect(함수명)(Detail)
+
 

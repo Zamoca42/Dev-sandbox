@@ -1,0 +1,141 @@
+<div></div>
+<button id="버튼">버튼</button>
+
+<script>
+    'use strict';
+
+    console.log(this);
+    
+    var 오브젝트 = {
+        data : 'Kim',
+        함수 : function(){
+            console.log(this)
+        }
+    }
+
+    오브젝트.함수();
+    
+    function 기계(){ // constrctor
+        this.이름 = 'Kim' // instance
+    }
+
+    var 오브젝트 = new 기계();
+
+    document.getElementById('버튼').addEventListener('click', function(e){
+        //this; //e.currentTarget;
+        var 어레이 = [1,2,3];
+        어레이.forEach(function(a){
+            console.log(a);
+        });
+    })
+
+    var 사람 = {
+         name: '손흥민',
+         sayHi: function (){
+            console.log('안녕 나는 ' + this.name);
+         }
+        }
+    
+    사람.sayHi(); //안녕 나는 손흥민
+
+    
+    var 변수 = '손흥민';
+    var 문자 = `안녕하세요 ${변수} 입니다`;
+
+    function 해체분석기(문자들,변수들){
+        console.log(문자들);
+        console.log(변수들);
+    }
+
+    해체분석기`안녕하세요 ${변수} 입니다`
+
+    var 이름1 = { name : '김' };
+
+    function 변경(obj){
+      obj.name  = 'park';
+    }
+
+    변경(이름1);
+    console.log(이름1);
+
+    function 기계(){
+      this.name = 'Kim';
+      this.age = 15;
+    }
+
+    console.log(기계.prototype);
+
+    function 학생(이름, 나이) {
+        this.name = 이름;
+        this.age = 나이;
+        this.sayHi = function(){
+            console.log(`안녕 나는${this.name}이야`)
+        }
+    }
+
+    var 학생1 = new 학생('Kim', 20);
+    var 학생2 = new 학생('Park', 21);
+    var 학생3 = new 학생('Lee', 22);
+    학생1.sayHi();
+    
+    class 강아지 {
+        constructor(종류, 색깔) {
+            this.type = 종류;
+            this.color = 색깔;
+        }
+        한살먹기() {
+            if( this instanceof Cat) {
+                this.age++;
+            }
+        }
+    }
+
+    class 고양이 extends 강아지 {
+        constructor(종류, 색깔, 나이) {
+            super(종류, 색깔);
+            this.age = 나이;
+        }
+    }
+
+    class Unit { 
+        constructor() {
+            this.attack = 5;
+            this.hp = 100;
+        }
+        get battlePoint() {
+            return this.attack + this.hp;
+        }
+        set heal(healPoint) {
+            this.hp = this.hp + healPoint;
+        }
+    }
+    
+    var data = {
+        odd : [],
+        even : [],
+        홀짝 : function(...숫자){
+            숫자.forEach((a)=>{
+                if (a % 2 == 0) {
+                this.even.push(a)
+                } else {
+                this.odd.push(a)
+                }
+               });
+           }
+        }
+
+        var 프로미스 = new Promise(function(성공, 실패){
+          setTimeout(function(){
+            성공();
+          }, 1000);
+        });
+        
+        프로미스.then(function(){
+          console.log('1초 대기 성공했습니다')
+        }).catch(function(){
+          console.log('실패했습니다')
+        });
+
+        var 어레이 = [2,3,4,5];
+        console.log( 어레이[Symbol.iterator]() );
+</script>

@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),    # URL Reverse
     path('blog1/', include('blog1.urls')),
     path('instagram/', include('instagram.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 if settings.DEBUG:

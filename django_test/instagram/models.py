@@ -6,7 +6,8 @@ from django.db import models
 
 
 class Post(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
     message = models.TextField()
     tag_set = models.ManyToManyField('Tag', blank=True)
     photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%m/%d')
@@ -28,10 +29,12 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE) # post_id 필드가 생성이 됩니다.
+    # post_id 필드가 생성이 됩니다.
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     mssage = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -39,4 +42,3 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-    

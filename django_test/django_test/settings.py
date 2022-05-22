@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # third apps
     'django_extensions',
     'debug_toolbar',
+    'bootstrap5',
     # local apps
     'blog1',
     'instagram',
@@ -63,7 +64,10 @@ ROOT_URLCONF = 'django_test.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # File System Template Loader
+            BASE_DIR / 'django_test' / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

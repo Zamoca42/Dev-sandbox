@@ -5,7 +5,7 @@ from .models import Post
 
 # Create your views here.
 
-post_list = ListView.as_view(model=Post)
+post_list = ListView.as_view(model=Post, paginate_by=10)
 
 # /instagram/
 # /instagram/1/
@@ -35,4 +35,19 @@ post_list = ListView.as_view(model=Post)
 #         'post': post,
 #     })
 
-post_detail = DetailView.as_view(model=Post)
+# post_detail = DetailView.as_view(
+#     model=Post,
+#     queryset=Post.objects.filter(is_public=True))
+
+class PostDetailView(DetailView):
+    model = Post
+    # queryset = Post.objects.filter(is_public=True)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if not self.request.user.is_authenticated:  # 로그인여부
+            qs = qs.filter(is_public=True)
+        return qs
+
+
+post_detail = PostDetailView.as_view()

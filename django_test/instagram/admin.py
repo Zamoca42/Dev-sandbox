@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+# from django_test.instagram.forms import PostForm
 from .models import Post, Comment, Tag
 
 # Register your models here.
@@ -13,6 +14,7 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ['message']
     # 지정 필드값으로 필터링 옵션 제공
     list_filter = ['created_at', 'is_public']
+    # form = PostForm
 
     def photo_tag(self, post):
         if post.photo:
@@ -22,9 +24,11 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     pass
+
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):

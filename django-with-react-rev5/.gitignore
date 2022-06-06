@@ -1,1 +1,3 @@
 /django
+/backend/db.sqlite3
+/backend/backend/settings/common.py

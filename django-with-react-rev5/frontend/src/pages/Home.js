@@ -1,6 +1,8 @@
+import PostList from "components/PostList";
+
 function Home() {
     return (
-        <div>Home</div>
+        <PostList />
     )
 }
 

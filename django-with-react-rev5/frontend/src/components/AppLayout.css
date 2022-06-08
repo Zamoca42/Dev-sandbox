@@ -1,0 +1,51 @@
+
+.app {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: reapeat(3, 1fr);
+    grid-template-areas: 
+        "header header header"
+        "contents contents sidebar"
+        "footer footer footer"
+    ;
+    background-color: rgba(240,240,240);
+    width: 100%;
+    max-width: 100%;
+}
+
+.app > div{
+    margin: 1rem;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    grid-area: header;
+}
+
+.page-title {
+
+}
+
+.search {
+
+}
+
+.topnav {
+
+}
+
+.contents {
+
+}
+
+.sidebar {
+    grid-area: sidebar;
+}
+
+.footer {
+    grid-area: footer;
+    justify-self: center;
+}

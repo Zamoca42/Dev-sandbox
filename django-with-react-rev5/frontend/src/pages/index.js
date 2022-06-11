@@ -4,6 +4,7 @@ import About from "./About";
 import Home from "./Home";
 import Login from "./accounts/login";
 import Profile from "./accounts/profile";
+import Signup from "./accounts/Signup";
 
 
 function Root() {
@@ -15,6 +16,7 @@ function Root() {
             <Route path="accounts">
                 <Route path="profile" element={<Profile />} />
                 <Route path="login" element={<Login />} />
+                <Route path="signup" element={<Signup />} />
             </Route>
            </Routes>
        </AppLayout>

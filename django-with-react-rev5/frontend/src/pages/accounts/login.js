@@ -1,17 +1,25 @@
 import { useState } from "react";
 import Axios from "axios";
 import { Button, Checkbox, Form, Input } from 'antd';
+import useLocalStorage from "utils/useLocalStorage";
 
 export default function Login() {
+    const [jwtToken, setJwtToken] = useLocalStorage("jwtToken", "");
     const onFinish = (values) => {
         const { username, password } = values
 
         const data = { username, password};
         Axios.post("http://localhost:8000/accounts/token/", data);
+        const {
+            data: { token : jwtToken}
+          } = response;
       }
+      
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
       }
+      
+      setJwtToken(jwtToken);
     
     return (
         <Form
